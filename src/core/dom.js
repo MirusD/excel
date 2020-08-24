@@ -13,12 +13,25 @@ class Dom {
         return this.$el.outerHTML.trim();
     }
 
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text;
+            return this;
+        }
+        if (this.$el.tagName.toLocaleUpperCase() === 'input') {
+            return this.$el.value.trim();
+        }
+        return this.$el.textContent.trim();
+    }
+
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback);
+        return this;
     }
 
     off(eventType, callback) {
         this.$el.removeEventListener(eventType, callback);
+        return this
     }
 
     append(node) {
@@ -37,8 +50,23 @@ class Dom {
         return this.$el.dataset;
     }
 
+    id(parse) {
+        if (parse) {
+            const parsed = this.id().split(':');
+            return {
+                row: +parsed[0],
+                col: +parsed[1]
+            }
+        }
+        return this.$el.dataset.id;
+    }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector));
+    }
+
     findAll(selector) {
-        return this.$el.querySelectorAll(selector)
+        return this.$el.querySelectorAll(selector);
     }
 
     closest(selector) {
@@ -49,13 +77,23 @@ class Dom {
         return this.$el.getBoundingClientRect()
     }
 
-    addClass(cls) {
-        this.$el.classList.add(cls);
+    focus() {
+        this.$el.focus();
         return this;
     }
 
-    removeClass(cls) {
-        this.$el.classList.remove(cls);
+    addClass(className) {
+        this.$el.classList.add(className);
+        return this;
+    }
+
+    isNotEmpty() {
+        return this.$el;
+    }
+
+    removeClass(className) {
+        this.$el.classList.remove(className);
+        return this
     }
 
     css(styles = {}) {
@@ -63,6 +101,7 @@ class Dom {
             .forEach(key => {
                 this.$el.style[key] = styles[key];
             })
+        return this
     }
 }
 
