@@ -5,10 +5,15 @@ import {Formula} from '@/component/formula/Formula';
 import {Table} from '@/component/table/Table';
 import './scss/index.scss'
 
+// eslint-disable-next-line no-extend-native
+Array.prototype.last = function() {
+    return this[this.length - 1]
+}
+
 console.log('Started index.js');
 
 const excel = new Excel('#app', {
     components: [Header, Toolbar, Formula, Table]
 })
-// window.excel = excel;
+
 excel.render();
