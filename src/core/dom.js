@@ -14,11 +14,11 @@ class Dom {
     }
 
     text(text) {
-        if (typeof text === 'string') {
+        if (typeof text !== 'undefined') {
             this.$el.textContent = text;
             return this;
         }
-        if (this.$el.tagName.toLocaleUpperCase() === 'input') {
+        if (this.$el.tagName.toLocaleUpperCase() === 'INPUT') {
             return this.$el.value.trim();
         }
         return this.$el.textContent.trim();
@@ -102,6 +102,21 @@ class Dom {
                 this.$el.style[key] = styles[key];
             })
         return this
+    }
+
+    getStyles(styles = []) {
+        return styles.reduce((res, s) => {
+            res[s] = this.$el.style[s]
+            return res;
+        }, {})
+    }
+
+    attr(name, value) {
+        if (typeof value === 'string') {
+            this.$el.setAttribute(name, value);
+            return this;
+        }
+        return this.$el.getAttribute(name);
     }
 }
 
