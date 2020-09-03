@@ -73,12 +73,27 @@ class Dom {
         return $(this.$el.closest(selector));
     }
 
+    clear() {
+        this.html('');
+        return this;
+    }
+
     getCoords() {
         return this.$el.getBoundingClientRect()
     }
 
     focus() {
         this.$el.focus();
+        return this;
+    }
+
+    focusToEnd() {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(this.$el);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
         return this;
     }
 
