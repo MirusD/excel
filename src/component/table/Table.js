@@ -38,7 +38,7 @@ export class Table extends ExcelComponent {
             console.log(parse(value));
             this.updateTextInStore(value);
         })
-        this.on('formula:done', () => this.selection.current.focus())
+        this.on('formula:done', () => this.selection.current.focusToEnd())
         this.on('toolbar:applyStyle', value => {
             this.selection.applyStyle(value);
             this.$dispatch(applyStyle({
@@ -95,7 +95,7 @@ export class Table extends ExcelComponent {
             const selector = nextCellSelector(id, key, this.rowsCount, this.colsCount);
             const $nextCell = this.$root.find(selector);
             if (currentCell.isNotEmpty()) {
-                this.selectCell($nextCell);
+                this.selectCell($nextCell.focusToEnd());
             }
         }
     }
